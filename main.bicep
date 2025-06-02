@@ -45,16 +45,19 @@ resource nic 'Microsoft.Network/networkInterfaces@2021-08-01' = {
 }
 
 param principalId string = '560a96a5-8901-4a66-ace5-e622b1951b8c'
-param userAssignedIdentityId string = '/subscriptions/b771f123-b01d-44ea-a361-7bccdbe4ca46/resourceGroups/rg-alz-logging/providers/Microsoft.ManagedIdentity/userAssignedIdentities/alz-umi-identity'
+resource userAssignedIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-01-31' existing = {
+  scope: subscription('b771f123-b01d-44ea-a361-7bccdbe4ca46').resourceGroup('rg-alz-logging')
+  name: 'alz-umi-identity'
+}
 
 resource roleAssignment 'Microsoft.Authorization/roleAssignments@2020-04-01-preview' = {
-  name: guid(userAssignedIdentityId, principalId, 'ManagedIdentityOperator')
-  scope: userAssignedIdentityId
-  properties: {
-    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'f1a07417-d97a-45cb-824c-7a7467783830') // Managed Identity Operator
-    principalId: principalId
-    principalType: 'ServicePrincipal'
-  }
+  name: guid(userAssignedIdentity.id, principalId, 'ManagedIdentityOperator')
+  scope: userAssignedIdentity
+  properties: {
+    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'f1a07417-d97a-45cb-824c-7a7467783830') // Managed Identity Operator
+    principalId: principalId
+    principalType: 'ServicePrincipal'
+  }
 }
 
 param adminUsername string
