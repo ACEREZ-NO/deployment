@@ -2,6 +2,20 @@ var location = 'australiaeast'
 var nsgName = 'alz-tst-nsg-001'
 var logAnalyticsWorkspaceResourceId = '/subscriptions/9c4fddcd-e800-4363-82dd-b0acd9b2a961/resourcegroups/rg-sec-prod-sentinel-aue-001/providers/microsoft.operationalinsights/workspaces/law-sec-prod-sentinel-aue-001'
 
+resource flowLogStorage 'Microsoft.Storage/storageAccounts@2022-09-01' = {
+  name: 'nsgflow${uniqueString(resourceGroup().id)}'
+  location: location
+  sku: {
+    name: 'Standard_LRS'
+  }
+  kind: 'StorageV2'
+  properties: {
+    allowBlobPublicAccess: false
+    minimumTlsVersion: 'TLS1_2'
+    publicNetworkAccess: 'Enabled'
+  }
+}
+
 resource flowLog 'Microsoft.Network/networkWatchers/flowLogs@2022-07-01' = {
   name: 'NetworkWatcher_australiaeast/${nsgName}-flowlog'
   location: location
@@ -124,9 +138,6 @@ resource virtualMachines_alz_tst_vm_006_name_resource 'Microsoft.Compute/virtual
     }
   }
 }
-
-// Log Analytics Workspace Resource ID
-var logAnalyticsWorkspaceResourceId = '/subscriptions/9c4fddcd-e800-4363-82dd-b0acd9b2a961/resourcegroups/rg-sec-prod-sentinel-aue-001/providers/microsoft.operationalinsights/workspaces/law-sec-prod-sentinel-aue-001'
 
 // Reference to the VM resource
 resource vm 'Microsoft.Compute/virtualMachines@2024-11-01' existing = {
