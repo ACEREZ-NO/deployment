@@ -32,6 +32,7 @@ resource flowLog 'Microsoft.Network/networkWatchers/flowLogs@2022-07-01' = {
         workspaceId: logAnalyticsWorkspaceResourceId
         workspaceRegion: location
         workspaceResourceId: logAnalyticsWorkspaceResourceId
+        storageId: flowLogStorage.id
         trafficAnalyticsInterval: 10
       }
     }
