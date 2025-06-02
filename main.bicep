@@ -44,20 +44,14 @@ resource nic 'Microsoft.Network/networkInterfaces@2021-08-01' = {
   }
 }
 
-param principalId string = '560a96a5-8901-4a66-ace5-e622b1951b8c'
-resource userAssignedIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-01-31' existing = {
-scope: resourceGroup('rg-alz-logging', 'b771f123-b01d-44ea-a361-7bccdbe4ca46')
-name: 'alz-umi-identity'
-}
-
-resource roleAssignment 'Microsoft.Authorization/roleAssignments@2020-04-01-preview' = {
-name: guid(userAssignedIdentity.id, principalId, 'ManagedIdentityOperator')
-scope: userAssignedIdentity
-properties: {
-roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'f1a07417-d97a-45cb-824c-7a7467783830')
-principalId: principalId
-principalType: 'ServicePrincipal'
-}
+module assignRole 'assign-role.bicep' = {
+  name: 'assignRoleToSP'
+  scope: subscription('b771f123-b01d-44ea-a361-7bccdbe4ca46')
+  params: {
+    principalId: principalId
+    identityName: 'alz-umi-identity'
+    identityRg: 'rg-alz-logging'
+  }
 }
 
 param adminUsername string
