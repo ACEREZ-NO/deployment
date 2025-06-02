@@ -21,6 +21,7 @@ resource flowLog 'Microsoft.Network/networkWatchers/flowLogs@2022-07-01' = {
   location: location
   properties: {
     targetResourceId: resourceId('Microsoft.Network/networkSecurityGroups', nsgName)
+    storageId: flowLogStorage.id
     enabled: true
     format: {
       type: 'JSON'
@@ -32,7 +33,6 @@ resource flowLog 'Microsoft.Network/networkWatchers/flowLogs@2022-07-01' = {
         workspaceId: logAnalyticsWorkspaceResourceId
         workspaceRegion: location
         workspaceResourceId: logAnalyticsWorkspaceResourceId
-        storageId: flowLogStorage.id
         trafficAnalyticsInterval: 10
       }
     }
