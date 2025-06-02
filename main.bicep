@@ -1,3 +1,29 @@
+var location = 'australiaeast'
+var nsgName = 'alz-tst-nsg-001'
+var logAnalyticsWorkspaceResourceId = '/subscriptions/9c4fddcd-e800-4363-82dd-b0acd9b2a961/resourcegroups/rg-sec-prod-sentinel-aue-001/providers/microsoft.operationalinsights/workspaces/law-sec-prod-sentinel-aue-001'
+
+resource flowLog 'Microsoft.Network/networkWatchers/flowLogs@2022-07-01' = {
+  name: 'NetworkWatcher_australiaeast/${nsgName}-flowlog'
+  location: location
+  properties: {
+    targetResourceId: resourceId('Microsoft.Network/networkSecurityGroups', nsgName)
+    enabled: true
+    format: {
+      type: 'JSON'
+      version: 2
+    }
+    flowAnalyticsConfiguration: {
+      networkWatcherFlowAnalyticsConfiguration: {
+        enabled: true
+        workspaceId: logAnalyticsWorkspaceResourceId
+        workspaceRegion: location
+        workspaceResourceId: logAnalyticsWorkspaceResourceId
+        trafficAnalyticsInterval: 10
+      }
+    }
+  }
+}
+
 resource nic 'Microsoft.Network/networkInterfaces@2021-08-01' = {
   name: 'alz-tst-vm-006-nic'
   location: 'australiaeast'
