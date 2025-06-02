@@ -1,0 +1,28 @@
+name: Deploy Azure Resources
+
+on:
+  push:
+    branches:
+      - main  # Trigger deployment when code is pushed to the main branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Log in to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}  # JSON string with Azure credentials
+
+    - name: Deploy Bicep template
+      uses: azure/arm-deploy@v1
+      with:
+        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        resourceGroupName: ${{ secrets.AZURE_RESOURCE_GROUP }}
+        templateFile: main.bicep
+        deploymentName: github-deployment-${{ github.run_id }}
+
