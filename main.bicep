@@ -2,6 +2,11 @@ var location = 'australiaeast'
 var nsgName = 'alz-tst-nsg-001'
 var logAnalyticsWorkspaceResourceId = '/subscriptions/9c4fddcd-e800-4363-82dd-b0acd9b2a961/resourcegroups/rg-sec-prod-sentinel-aue-001/providers/microsoft.operationalinsights/workspaces/law-sec-prod-sentinel-aue-001'
 
+resource networkWatcher 'Microsoft.Network/networkWatchers@2022-07-01' existing = {
+  name: 'NetworkWatcher_australiaeast'
+  scope: resourceGroup('NetworkWatcherRG')
+}
+
 resource flowLogStorage 'Microsoft.Storage/storageAccounts@2022-09-01' = {
   name: 'nsgflow${uniqueString(resourceGroup().id)}'
   location: location
@@ -17,7 +22,8 @@ resource flowLogStorage 'Microsoft.Storage/storageAccounts@2022-09-01' = {
 }
 
 resource flowLog 'Microsoft.Network/networkWatchers/flowLogs@2022-07-01' = {
-  name: 'NetworkWatcher_australiaeast/${nsgName}-flowlog'
+  name: '${nsgName}-flowlog'
+  parent: networkWatcher
   location: location
   properties: {
     targetResourceId: resourceId('Microsoft.Network/networkSecurityGroups', nsgName)
