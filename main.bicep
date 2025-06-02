@@ -1,31 +1,3 @@
-resource myStorageAccount1 'Microsoft.Storage/storageAccounts@2022-09-01' = {
-  name: 'mystorage${uniqueString(resourceGroup().id)}'
-  location: 'australiaeast'
-  sku: {
-    name: 'Standard_LRS'
-  }
-  kind: 'StorageV2'
-  properties: {
-    allowBlobPublicAccess: false
-    minimumTlsVersion: 'TLS1_2'
-    publicNetworkAccess: 'Disabled'
-  }
-}
-
-resource myStorageAccount2 'Microsoft.Storage/storageAccounts@2022-09-01' = {
-  name: 'my2storage${uniqueString(resourceGroup().id)}'
-  location: 'australiaeast'
-  sku: {
-    name: 'Standard_LRS'
-  }
-  kind: 'StorageV2'
-  properties: {
-    allowBlobPublicAccess: false
-    minimumTlsVersion: 'TLS1_2'
-    publicNetworkAccess: 'Disabled'
-  }
-}
-
 resource nic 'Microsoft.Network/networkInterfaces@2021-08-01' = {
   name: 'alz-tst-vm-006-nic'
   location: 'australiaeast'
