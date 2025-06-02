@@ -44,10 +44,11 @@ resource nic 'Microsoft.Network/networkInterfaces@2021-08-01' = {
   }
 }
 
-param adminUsername string = 'alz-admin'
+param adminUsername string
+@secure()
+param adminPassword string
 param virtualMachines_alz_tst_vm_006_name string = 'alz-tst-vm-006'
-param networkInterfaces_alz-tst-vm-006-nic_externalid string = '/subscriptions/0b6bba99-c2d7-4f8b-b9d2-a0b54c6d046f/resourceGroups/alz_tst_rg_001/providers/Microsoft.Network/networkInterfaces/alz-tst-vm-006-nic'
-param adminPassword string = 'Password123'
+param networkInterfaces_alz_tst_vm_006_nic_externalid string = '/subscriptions/0b6bba99-c2d7-4f8b-b9d2-a0b54c6d046f/resourceGroups/alz_tst_rg_001/providers/Microsoft.Network/networkInterfaces/alz-tst-vm-006-nic'
 
 resource virtualMachines_alz_tst_vm_006_name_resource 'Microsoft.Compute/virtualMachines@2024-11-01' = {
   name: virtualMachines_alz_tst_vm_006_name
@@ -116,7 +117,7 @@ resource virtualMachines_alz_tst_vm_006_name_resource 'Microsoft.Compute/virtual
 	networkProfile: {
       networkInterfaces: [
         {
-          id: networkInterfaces_alz-tst-vm-006-nic_externalid
+          id: networkInterfaces_alz_tst_vm_006_nic_externalid
           properties: {
             deleteOption: 'Detach'
           }
