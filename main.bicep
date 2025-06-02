@@ -98,3 +98,66 @@ resource virtualMachines_alz_tst_vm_006_name_resource 'Microsoft.Compute/virtual
     }
   }
 }
+
+// Log Analytics Workspace Resource ID
+var logAnalyticsWorkspaceResourceId = '/subscriptions/9c4fddcd-e800-4363-82dd-b0acd9b2a961/resourcegroups/rg-sec-prod-sentinel-aue-001/providers/microsoft.operationalinsights/workspaces/law-sec-prod-sentinel-aue-001'
+
+// Reference to the VM resource
+resource vm 'Microsoft.Compute/virtualMachines@2024-11-01' existing = {
+  name: virtualMachines_alz_tst_vm_006_name
+}
+
+// Data Collection Rule
+resource dcr 'Microsoft.Insights/dataCollectionRules@2021-09-01-preview' = {
+  name: 'alz-tst-dcr'
+  location: 'australiaeast'
+  properties: {
+    dataSources: {
+      performanceCounters: [
+        {
+          name: 'cpuPerf'
+          streams: ['Microsoft-Perf']
+          samplingFrequencyInSeconds: 60
+          counterSpecifiers: ['\\Processor(_Total)\\% Processor Time']
+        }
+      ]
+    }
+    destinations: {
+      logAnalytics: [
+        {
+          name: 'logAnalyticsDest'
+          workspaceResourceId: logAnalyticsWorkspaceResourceId
+        }
+      ]
+    }
+    dataFlows: [
+      {
+        streams: ['Microsoft-Perf']
+        destinations: ['logAnalyticsDest']
+      }
+    ]
+  }
+}
+
+// Associate DCR with VM
+resource dcra 'Microsoft.Insights/dataCollectionRuleAssociations@2021-09-01-preview' = {
+  name: '${virtualMachines_alz_tst_vm_006_name}-dcra'
+  scope: vm
+  properties: {
+    dataCollectionRuleId: dcr.id
+  }
+}
+
+// Install Azure Monitor Agent extension
+resource azureMonitorAgent 'Microsoft.Compute/virtualMachines/extensions@2021-07-01' = {
+  name: 'AzureMonitorWindowsAgent'
+  parent: virtualMachines_alz_tst_vm_006_name_resource
+  location: 'australiaeast'
+  properties: {
+    publisher: 'Microsoft.Azure.Monitor'
+    type: 'AzureMonitorWindowsAgent'
+    typeHandlerVersion: '1.10'
+    autoUpgradeMinorVersion: true
+    settings: {}
+  }
+}
