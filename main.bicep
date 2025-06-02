@@ -44,16 +44,6 @@ resource nic 'Microsoft.Network/networkInterfaces@2021-08-01' = {
   }
 }
 
-module assignRole 'assign-role.bicep' = {
-  name: 'assignRoleToSP'
-  scope: subscription('b771f123-b01d-44ea-a361-7bccdbe4ca46')
-  params: {
-    principalId: principalId
-    identityName: 'alz-umi-identity'
-    identityRg: 'rg-alz-logging'
-  }
-}
-
 param adminUsername string
 @secure()
 param adminPassword string
