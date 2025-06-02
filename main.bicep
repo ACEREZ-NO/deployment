@@ -161,4 +161,3 @@ resource azureMonitorAgent 'Microsoft.Compute/virtualMachines/extensions@2021-07
     settings: {}
   }
 }
-
