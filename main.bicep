@@ -49,7 +49,7 @@ param userAssignedIdentityId string = '/subscriptions/b771f123-b01d-44ea-a361-7b
 
 resource roleAssignment 'Microsoft.Authorization/roleAssignments@2020-04-01-preview' = {
   name: guid(userAssignedIdentityId, principalId, 'ManagedIdentityOperator')
-  scope: resource(userAssignedIdentityId, 'Microsoft.ManagedIdentity/userAssignedIdentities')
+  scope: userAssignedIdentityId
   properties: {
     roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'f1a07417-d97a-45cb-824c-7a7467783830') // Managed Identity Operator
     principalId: principalId
