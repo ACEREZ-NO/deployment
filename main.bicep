@@ -1,4 +1,4 @@
-resource myStorageAccount 'Microsoft.Storage/storageAccounts@2022-09-01' = {
+resource myStorageAccount1 'Microsoft.Storage/storageAccounts@2022-09-01' = {
   name: 'mystorage${uniqueString(resourceGroup().id)}'
   location: 'australiaeast'
   sku: {
@@ -12,7 +12,7 @@ resource myStorageAccount 'Microsoft.Storage/storageAccounts@2022-09-01' = {
   }
 }
 
-resource myStorageAccount 'Microsoft.Storage/storageAccounts@2022-09-01' = {
+resource myStorageAccount2 'Microsoft.Storage/storageAccounts@2022-09-01' = {
   name: 'anotherstorage${uniqueString(resourceGroup().id)}'
   location: 'australiaeast'
   sku: {
