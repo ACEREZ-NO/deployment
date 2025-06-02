@@ -1,5 +1,5 @@
 resource myStorageAccount 'Microsoft.Storage/storageAccounts@2021-04-01' = {
-  name: 'mystorageaccount'
+  name: 'mystorage${uniqueString(resourceGroup().id)}'
   location: 'australiaeast'
   sku: {
     name: 'Standard_LRS'
@@ -7,7 +7,7 @@ resource myStorageAccount 'Microsoft.Storage/storageAccounts@2021-04-01' = {
   kind: 'StorageV2'
   properties: {
     allowBlobPublicAccess: false
-    publicNetworkAccess: 'Disabled'
     minimumTlsVersion: 'TLS1_2'
   }
+  publicNetworkAccess: 'Disabled'
 }
