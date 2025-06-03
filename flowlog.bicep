@@ -28,3 +28,23 @@ resource flowLog 'Microsoft.Network/networkWatchers/flowLogs@2022-07-01' = {
     }
   }
 }
+
+resource flowLog 'Microsoft.Network/networkWatchers/flowLogs@2022-07-01' = {
+  name: '${nsgName}-flowlog'
+  parent: networkWatcher
+  location: location
+  properties: {
+    targetResourceId: resourceId('alz-prd-rg-001', 'Microsoft.Network/networkSecurityGroups', nsgName)
+    storageId: flowLogStorageId
+    enabled: true
+    format: {
+      type: 'JSON'
+      version: 2
+    }
+    flowAnalyticsConfiguration: {
+      networkWatcherFlowAnalyticsConfiguration: {
+        enabled: false
+      }
+    }
+  }
+}
