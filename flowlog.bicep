@@ -1,6 +1,5 @@
 param location string
 param nsgName string
-param logAnalyticsWorkspaceResourceId string
 param flowLogStorageId string
 
 resource networkWatcher 'Microsoft.Network/networkWatchers@2022-07-01' existing = {
