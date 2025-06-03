@@ -43,10 +43,7 @@ resource flowLogStorage 'Microsoft.Storage/storageAccounts@2022-09-01' = {
 
 module flowLogModules 'flowlog.bicep' = [for nsg in nsgs: {
   name: 'flowLog-${nsg.name}'
-  scope: resourceGroup({
-    name: nsg.networkWatcherResourceGroup
-    subscriptionId: nsg.subscriptionId
-  })
+  scope: resourceGroup(nsg.subscriptionId, nsg.networkWatcherResourceGroup)
   params: {
     location: location
     nsgName: nsg.name
