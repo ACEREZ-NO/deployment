@@ -22,7 +22,7 @@ resource flowLog 'Microsoft.Network/networkWatchers/flowLogs@2022-07-01' = {
     flowAnalyticsConfiguration: {
       networkWatcherFlowAnalyticsConfiguration: {
         enabled: true
-        workspaceId: logAnalyticsWorkspaceResourceId
+        workspaceId: logAnalyticsWorkspaceGUID
         workspaceRegion: location
         workspaceResourceId: logAnalyticsWorkspaceResourceId
         trafficAnalyticsInterval: 10
