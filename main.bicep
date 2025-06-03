@@ -1,5 +1,4 @@
 var location = 'australiaeast'
-var logAnalyticsWorkspaceResourceId = '/subscriptions/9c4fddcd-e800-4363-82dd-b0acd9b2a961/resourcegroups/rg-sec-prod-sentinel-aue-001/providers/microsoft.operationalinsights/workspaces/law-sec-prod-sentinel-aue-001'
 
 var nsgs = [
   {
@@ -40,13 +39,12 @@ resource flowLogStorage 'Microsoft.Storage/storageAccounts@2022-09-01' = {
 
 module flowLogModules 'flowlog.bicep' = [for nsg in nsgs: {
   name: 'flowLog-${nsg.name}'
-  scope: resourceGroup(nsg.resourceGroup, nsg.subscriptionId)
+  scope: resourceGroup('NetworkWatcherRG', nsg.subscriptionId)
   params: {
     location: location
     nsgName: nsg.name
     nsgResourceGroup: nsg.resourceGroup
     nsgSubscriptionId: nsg.subscriptionId
-    logAnalyticsWorkspaceResourceId: logAnalyticsWorkspaceResourceId
     flowLogStorageId: flowLogStorage.id
   }
 }]
