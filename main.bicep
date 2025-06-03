@@ -53,6 +53,10 @@ module flowLogModules 'flowlog.bicep' = [for nsg in nsgs: {
   }
 }]
 
+////////////////
+// VM Section //
+////////////////
+
 resource nic 'Microsoft.Network/networkInterfaces@2021-08-01' = {
   name: 'alz-tst-vm-006-nic'
   location: 'australiaeast'
@@ -214,3 +218,7 @@ resource azureMonitorAgent 'Microsoft.Compute/virtualMachines/extensions@2021-07
   }
 
 }
+
+////////////////////
+// END VM Section //
+////////////////////
