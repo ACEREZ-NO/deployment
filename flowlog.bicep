@@ -2,12 +2,11 @@ param location string
 param nsgName string
 param nsgResourceGroup string
 param nsgSubscriptionId string
-param logAnalyticsWorkspaceResourceId string
 param flowLogStorageId string
 
 resource networkWatcher 'Microsoft.Network/networkWatchers@2022-07-01' existing = {
   name: 'NetworkWatcher_australiaeast'
-  scope: subscription()
+  scope: resourceGroup('NetworkWatcherRG', nsgSubscriptionId)
 }
 
 resource flowLog 'Microsoft.Network/networkWatchers/flowLogs@2022-07-01' = {
