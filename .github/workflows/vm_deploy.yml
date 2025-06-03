@@ -22,5 +22,6 @@ jobs:
       run: |
         az deployment group create \
           --template-file vm.bicep \
+          --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
           --parameters adminUsername='${{ secrets.VM_USER }}' adminPassword='${{ secrets.VM_PASSWORD }}' \
           --name github-deployment-${{ github.run_id }}
