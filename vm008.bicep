@@ -156,17 +156,3 @@ resource azureMonitorAgent 'Microsoft.Compute/virtualMachines/extensions@2021-07
     settings: {}
   }
 }
-
-// Add AADLoginForWindows extension
-resource aadLoginExtension 'Microsoft.Compute/virtualMachines/extensions@2021-07-01' = {
-  name: 'AADLoginForWindows'
-  parent: virtualMachineName_resource
-  location: location
-  properties: {
-    publisher: 'Microsoft.Azure.ActiveDirectory'
-    type: 'AADLoginForWindows'
-    typeHandlerVersion: '1.0'
-    autoUpgradeMinorVersion: true
-    settings: {}
-  }
-}
