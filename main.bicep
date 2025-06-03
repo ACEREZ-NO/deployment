@@ -2,11 +2,6 @@ var location = 'australiaeast'
 var nsgName = 'alz-tst-nsg-001'
 var logAnalyticsWorkspaceResourceId = '/subscriptions/9c4fddcd-e800-4363-82dd-b0acd9b2a961/resourcegroups/rg-sec-prod-sentinel-aue-001/providers/microsoft.operationalinsights/workspaces/law-sec-prod-sentinel-aue-001'
 
-resource networkWatcher 'Microsoft.Network/networkWatchers@2022-07-01' existing = {
-  name: 'NetworkWatcher_australiaeast'
-  scope: resourceGroup('NetworkWatcherRG')
-}
-
 resource flowLogStorage 'Microsoft.Storage/storageAccounts@2022-09-01' = {
   name: 'nsgflow${uniqueString(resourceGroup().id)}'
   location: location
@@ -21,27 +16,14 @@ resource flowLogStorage 'Microsoft.Storage/storageAccounts@2022-09-01' = {
   }
 }
 
-resource flowLog 'Microsoft.Network/networkWatchers/flowLogs@2022-07-01' = {
-  name: '${nsgName}-flowlog'
-  parent: networkWatcher
-  location: location
-  properties: {
-    targetResourceId: resourceId('Microsoft.Network/networkSecurityGroups', nsgName)
-    storageId: flowLogStorage.id
-    enabled: true
-    format: {
-      type: 'JSON'
-      version: 2
-    }
-    flowAnalyticsConfiguration: {
-      networkWatcherFlowAnalyticsConfiguration: {
-        enabled: true
-        workspaceId: logAnalyticsWorkspaceResourceId
-        workspaceRegion: location
-        workspaceResourceId: logAnalyticsWorkspaceResourceId
-        trafficAnalyticsInterval: 10
-      }
-    }
+module flowLogModule 'flowlog.bicep' = {
+  name: 'flowLogDeployment'
+  scope: resourceGroup('NetworkWatcherRG')
+  params: {
+    location: location
+    nsgName: nsgName
+    logAnalyticsWorkspaceResourceId: logAnalyticsWorkspaceResourceId
+    flowLogStorageId: flowLogStorage.id
   }
 }
 
