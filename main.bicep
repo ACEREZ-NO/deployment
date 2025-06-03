@@ -1,4 +1,4 @@
-var location = 'australiaeast' //
+var location = 'australiaeast'
 var logAnalyticsWorkspaceResourceId = '/subscriptions/9c4fddcd-e800-4363-82dd-b0acd9b2a961/resourcegroups/rg-sec-prod-sentinel-aue-001/providers/microsoft.operationalinsights/workspaces/law-sec-prod-sentinel-aue-001'
 var logAnalyticsWorkspaceId = '/subscriptions/9c4fddcd-e800-4363-82dd-b0acd9b2a961/resourcegroups/rg-sec-prod-sentinel-aue-001/providers/microsoft.operationalinsights/workspaces/law-sec-prod-sentinel-aue-001'
 var logAnalyticsRegion = 'australiaeast'
@@ -27,12 +27,12 @@ var nsgs = [
     resourceGroup: 'alz-sse-rg-001'
     networkWatcherResourceGroup: 'NetworkWatcherRG'
   }
-  {
-    name: 'nsg-AzureBastionSubnet-australiaeast'
-    subscriptionId: 'ce582519-c8e5-4709-a977-d72319f224a1'
-    resourceGroup: 'rg-alz-connectivity'
-    networkWatcherResourceGroup: 'NetworkWatcherRG'
-  }
+//  {
+//    name: 'nsg-AzureBastionSubnet-australiaeast'
+//    subscriptionId: 'ce582519-c8e5-4709-a977-d72319f224a1'
+//    resourceGroup: 'rg-alz-connectivity'
+//    networkWatcherResourceGroup: 'NetworkWatcherRG'
+//  }
 ]
 
 resource flowLogStorage 'Microsoft.Storage/storageAccounts@2022-09-01' = {
