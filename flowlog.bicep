@@ -3,6 +3,8 @@ param nsgName string
 param logAnalyticsWorkspaceResourceId string
 param flowLogStorageId string
 
+var logAnalyticsWorkspaceGUID = '7b58efd2-834a-4a8c-900e-b5c15082c3fa'
+
 resource networkWatcher 'Microsoft.Network/networkWatchers@2022-07-01' existing = {
   name: 'NetworkWatcher_australiaeast'
 }
