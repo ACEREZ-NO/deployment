@@ -21,14 +21,5 @@ resource flowLog 'Microsoft.Network/networkWatchers/flowLogs@2022-07-01' = {
       type: 'JSON'
       version: 2
     }
-    flowAnalyticsConfiguration: {
-      networkWatcherFlowAnalyticsConfiguration: {
-        enabled: true
-        workspaceId: logAnalyticsWorkspaceGUID
-        workspaceRegion: location
-        workspaceResourceId: logAnalyticsWorkspaceResourceId
-        trafficAnalyticsInterval: 10
-      }
-    }
   }
 }
