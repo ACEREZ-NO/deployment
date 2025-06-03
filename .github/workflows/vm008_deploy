@@ -1,0 +1,30 @@
+name: Deploy VM
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'vm.bicep'
+      - '.github/workflows/vm008_deploy.yml'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Log in to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Deploy Bicep template using Azure CLI
+      run: |
+        az deployment group create \
+          --template-file vm008.bicep \
+          --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
+          --parameters adminUsername='${{ secrets.VM_USER }}' adminPassword='${{ secrets.VM_PASSWORD }}' \
+          --name github-deployment-${{ github.run_id }}
