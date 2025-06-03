@@ -1,4 +1,4 @@
-var location = 'australiaeast' //
+var location = 'australiaeast'
 var environment = 'Development' //// update if required ////
 var logAnalyticsWorkspaceResourceId = '/subscriptions/9c4fddcd-e800-4363-82dd-b0acd9b2a961/resourcegroups/rg-sec-prod-sentinel-aue-001/providers/microsoft.operationalinsights/workspaces/law-sec-prod-sentinel-aue-001'
 
