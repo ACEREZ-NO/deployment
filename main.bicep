@@ -23,7 +23,7 @@ module flowLogModule 'flowlog.bicep' = {
   params: {
     location: location
     nsgName: nsgName
-    logAnalyticsWorkspaceResourceId: logAnalyticsWorkspaceResourceID
+    logAnalyticsWorkspaceResourceId: logAnalyticsWorkspaceResourceId
     flowLogStorageId: flowLogStorage.id
   }
 }
