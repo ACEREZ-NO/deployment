@@ -73,7 +73,7 @@ resource virtualMachineName_resource 'Microsoft.Compute/virtualMachines@2024-11-
 	  adminPassword: adminPassword
       windowsConfiguration: {
         provisionVMAgent: true
-        enableAutomaticUpdates: true
+        enableAutomaticUpdates: false
         patchSettings: {
           patchMode: 'Manual'
           assessmentMode: 'AutomaticByPlatform'
@@ -101,11 +101,6 @@ resource virtualMachineName_resource 'Microsoft.Compute/virtualMachines@2024-11-
       ]
     }
   }
-}
-
-// Reference to the VM resource
-resource vm 'Microsoft.Compute/virtualMachines@2024-11-01' existing = {
-  name: virtualMachineName
 }
 
 // Data Collection Rule
@@ -140,10 +135,9 @@ resource dcr 'Microsoft.Insights/dataCollectionRules@2021-09-01-preview' = {
   }
 }
 
-// Associate DCR with VM
 resource dcra 'Microsoft.Insights/dataCollectionRuleAssociations@2021-09-01-preview' = {
   name: '${virtualMachineName}-dcra'
-  scope: vm
+  scope: virtualMachineName_resource
   properties: {
     dataCollectionRuleId: dcr.id
   }
