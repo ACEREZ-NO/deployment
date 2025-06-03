@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'vm.bicep'
+      - 'vm008.bicep'
       - '.github/workflows/vm008_deploy.yml'
 
 jobs:
