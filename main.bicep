@@ -1,5 +1,11 @@
 var location = 'australiaeast'
-var nsgName = 'alz-tst-nsg-001'
+var nsgNames = [
+  'alz-tst-nsg-001'
+  'alz-id-nsg-001'
+  'alz-prd-nsg-001'
+  'alz-sse-nsg-001'
+  'nsg-AzureBastionSubnet-australiaeast'
+]
 var logAnalyticsWorkspaceResourceId = '/subscriptions/9c4fddcd-e800-4363-82dd-b0acd9b2a961/resourcegroups/rg-sec-prod-sentinel-aue-001/providers/microsoft.operationalinsights/workspaces/law-sec-prod-sentinel-aue-001'
 
 resource flowLogStorage 'Microsoft.Storage/storageAccounts@2022-09-01' = {
@@ -16,8 +22,9 @@ resource flowLogStorage 'Microsoft.Storage/storageAccounts@2022-09-01' = {
   }
 }
 
-module flowLogModule 'flowlog.bicep' = {
-  name: 'flowLogDeployment'
+@batchSize(1)
+module flowLogModule 'flowlog.bicep' = [for nsgName in nsgNames: {
+  name: 'flowLogDeployment-${nsgName}'
   scope: resourceGroup('NetworkWatcherRG')
   params: {
     location: location
@@ -25,7 +32,7 @@ module flowLogModule 'flowlog.bicep' = {
     logAnalyticsWorkspaceResourceId: logAnalyticsWorkspaceResourceId
     flowLogStorageId: flowLogStorage.id
   }
-}
+}]
 
 resource nic 'Microsoft.Network/networkInterfaces@2021-08-01' = {
   name: 'alz-tst-vm-006-nic'
