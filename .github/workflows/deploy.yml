@@ -6,7 +6,7 @@ on:
       - main
     paths:
       - 'main.bicep'
-      - 'flowlog.bicep'
+      - 'flowlog-basic.bicep'
       - '.github/workflows/deploy.yml'
 
 jobs:
@@ -27,5 +27,4 @@ jobs:
         az deployment group create \
           --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
           --template-file main.bicep \
-          --parameters adminUsername='${{ secrets.VM_USER }}' adminPassword='${{ secrets.VM_PASSWORD }}' \
           --name github-deployment-${{ github.run_id }}
