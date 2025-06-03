@@ -3,6 +3,8 @@ param nsgName string
 param nsgResourceGroup string
 param nsgSubscriptionId string
 param flowLogStorageId string
+param logAnalyticsWorkspaceId string
+param logAnalyticsRegion string
 
 resource networkWatcher 'Microsoft.Network/networkWatchers@2022-07-01' existing = {
   name: 'NetworkWatcher_australiaeast'
@@ -22,7 +24,10 @@ resource flowLog 'Microsoft.Network/networkWatchers/flowLogs@2022-07-01' = {
     }
     flowAnalyticsConfiguration: {
       networkWatcherFlowAnalyticsConfiguration: {
-        enabled: false
+        enabled: true
+        workspaceId: logAnalyticsWorkspaceId
+        workspaceRegion: logAnalyticsRegion
+        trafficAnalyticsInterval: 10
       }
     }
   }
