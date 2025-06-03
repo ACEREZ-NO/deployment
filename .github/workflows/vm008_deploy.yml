@@ -1,4 +1,4 @@
-name: Deploy VM
+name: Deploy VM008
 
 on:
   push:
