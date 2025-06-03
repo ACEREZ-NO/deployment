@@ -63,7 +63,7 @@ module flowLogBasic 'flowlog-basic.bicep' = [for nsg in nsgs: {
 
 module flowLogAnalytics 'flowlog-analytics.bicep' = [for (nsg, i) in nsgs: {
   name: 'flowLogAnalytics-${nsg.name}'
-  scope: resourceGroup(nsg.subscriptionId, nsg.resourceGroup)
+  scope: resourceGroup(nsg.subscriptionId, nsg.networkWatcherResourceGroup)
   dependsOn: [flowLogBasic[i]]
   params: {
     location: location
