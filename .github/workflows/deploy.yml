@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - 'main.bicep'
+      - 'flowlog.bicep'
       - '.github/workflows/deploy.yml'
 
 jobs:
