@@ -8,6 +8,12 @@ var nsgs = [
     networkWatcherResourceGroup: 'NetworkWatcherRG'
   }
   {
+    name: 'alz-tst-nsg-001'
+    subscriptionId: '0b6bba99-c2d7-4f8b-b9d2-a0b54c6d046f'
+    resourceGroup: 'alz_tst_rg_001'
+    networkWatcherResourceGroup: 'NetworkWatcherRG'
+  }
+  {
     name: 'alz-prd-nsg-001'
     subscriptionId: 'ed616b0a-1d77-4cc0-92d6-2d62ff6dd4d0'
     resourceGroup: 'alz-prd-rg-001'
