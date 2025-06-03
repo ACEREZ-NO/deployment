@@ -1,12 +1,28 @@
 var location = 'australiaeast'
-var nsgNames = [
-  'alz-tst-nsg-001'
-  'alz-id-nsg-001'
-  'alz-prd-nsg-001'
-  'alz-sse-nsg-001'
-  'nsg-AzureBastionSubnet-australiaeast'
-]
 var logAnalyticsWorkspaceResourceId = '/subscriptions/9c4fddcd-e800-4363-82dd-b0acd9b2a961/resourcegroups/rg-sec-prod-sentinel-aue-001/providers/microsoft.operationalinsights/workspaces/law-sec-prod-sentinel-aue-001'
+
+var nsgs = [
+  {
+    name: 'alz-id-nsg-001'
+    subscriptionId: 'SUBSCRIPTION_ID_IDENTITY'
+    resourceGroup: 'alz-id-rg'
+  }
+  {
+    name: 'alz-prd-nsg-001'
+    subscriptionId: 'SUBSCRIPTION_ID_PRD'
+    resourceGroup: 'alz-prd-rg'
+  }
+  {
+    name: 'alz-sse-nsg-001'
+    subscriptionId: 'SUBSCRIPTION_ID_SSE'
+    resourceGroup: 'alz-sse-rg'
+  }
+  {
+    name: 'nsg-AzureBastionSubnet-australiaeast'
+    subscriptionId: 'SUBSCRIPTION_ID_CONNECTIVITY'
+    resourceGroup: 'alz-connectivity-rg'
+  }
+]
 
 resource flowLogStorage 'Microsoft.Storage/storageAccounts@2022-09-01' = {
   name: 'nsgflow${uniqueString(resourceGroup().id)}'
@@ -22,13 +38,15 @@ resource flowLogStorage 'Microsoft.Storage/storageAccounts@2022-09-01' = {
   }
 }
 
-@batchSize(1)
-module flowLogModule 'flowlog.bicep' = [for nsgName in nsgNames: {
-  name: 'flowLogDeployment-${nsgName}'
-  scope: resourceGroup('NetworkWatcherRG')
+module flowLogModules 'flowlog.bicep' = [for nsg in nsgs: {
+  name: 'flowLog-${nsg.name}'
+  scope: resourceGroup(nsg.resourceGroup, nsg.subscriptionId)
   params: {
     location: location
-    nsgName: nsgName
+    nsgName: nsg.name
+    nsgResourceGroup: nsg.resourceGroup
+    nsgSubscriptionId: nsg.subscriptionId
+    logAnalyticsWorkspaceResourceId: logAnalyticsWorkspaceResourceId
     flowLogStorageId: flowLogStorage.id
   }
 }]
