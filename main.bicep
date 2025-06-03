@@ -38,15 +38,15 @@ resource flowLogStorage 'Microsoft.Storage/storageAccounts@2022-09-01' = {
 }
 
 module flowLogModules 'flowlog.bicep' = [for nsg in nsgs: {
-  name: 'flowLog-${nsg.name}'
-  scope: resourceGroup('NetworkWatcherRG', nsg.subscriptionId)
-  params: {
-    location: location
-    nsgName: nsg.name
-    nsgResourceGroup: nsg.resourceGroup
-    nsgSubscriptionId: nsg.subscriptionId
-    flowLogStorageId: flowLogStorage.id
-  }
+  name: 'flowLog-${nsg.name}'
+  scope: resourceGroup('NetworkWatcherRG', nsg.subscriptionId)
+  params: {
+    location: location
+    nsgName: nsg.name
+    nsgResourceGroup: nsg.resourceGroup
+    nsgSubscriptionId: nsg.subscriptionId
+    flowLogStorageId: flowLogStorage.id
+  }
 }]
 
 resource nic 'Microsoft.Network/networkInterfaces@2021-08-01' = {
