@@ -58,7 +58,7 @@ module flowLogModules 'flowlog.bicep' = [for nsg in nsgs: {
 ////////////////
 
 resource nic 'Microsoft.Network/networkInterfaces@2021-08-01' = {
-  name: 'alz-tst-vm-006-nic'
+  name: 'alz-tst-vm-006-nic' //// update name /////
   location: 'australiaeast'
   properties: {
     ipConfigurations: [
