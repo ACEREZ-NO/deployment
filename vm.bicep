@@ -1,5 +1,5 @@
 var location = 'australiaeast'
-var environment = 'Development' //// update ////
+var environment = 'Development' //// update if required ////
 var logAnalyticsWorkspaceResourceId = '/subscriptions/9c4fddcd-e800-4363-82dd-b0acd9b2a961/resourcegroups/rg-sec-prod-sentinel-aue-001/providers/microsoft.operationalinsights/workspaces/law-sec-prod-sentinel-aue-001'
 
 resource nic 'Microsoft.Network/networkInterfaces@2021-08-01' = {
@@ -23,8 +23,8 @@ resource nic 'Microsoft.Network/networkInterfaces@2021-08-01' = {
 param adminUsername string
 @secure()
 param adminPassword string
-param virtualMachineName string = 'alz-tst-vm-006' //// update ////
-param networkInterfaceId string = '/subscriptions/0b6bba99-c2d7-4f8b-b9d2-a0b54c6d046f/resourceGroups/alz_tst_rg_001/providers/Microsoft.Network/networkInterfaces/alz-tst-vm-006-nic' //// update ////
+param virtualMachineName string = 'alz-tst-vm-007' //// update ////
+param networkInterfaceId string = '/subscriptions/0b6bba99-c2d7-4f8b-b9d2-a0b54c6d046f/resourceGroups/alz_tst_rg_001/providers/Microsoft.Network/networkInterfaces/alz-tst-vm-007-nic' //// update ////
 
 resource virtualMachineName_resource 'Microsoft.Compute/virtualMachines@2024-11-01' = {
   name: virtualMachineName
