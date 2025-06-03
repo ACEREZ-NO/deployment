@@ -1,9 +1,13 @@
 param location string
 param nsgName string
+param nsgResourceGroup string
+param nsgSubscriptionId string
+param logAnalyticsWorkspaceResourceId string
 param flowLogStorageId string
 
 resource networkWatcher 'Microsoft.Network/networkWatchers@2022-07-01' existing = {
   name: 'NetworkWatcher_australiaeast'
+  scope: subscription()
 }
 
 resource flowLog 'Microsoft.Network/networkWatchers/flowLogs@2022-07-01' = {
@@ -11,7 +15,7 @@ resource flowLog 'Microsoft.Network/networkWatchers/flowLogs@2022-07-01' = {
   parent: networkWatcher
   location: location
   properties: {
-    targetResourceId: resourceId('alz_tst_rg_001', 'Microsoft.Network/networkSecurityGroups', nsgName)
+    targetResourceId: resourceId(nsgSubscriptionId, nsgResourceGroup, 'Microsoft.Network/networkSecurityGroups', nsgName)
     storageId: flowLogStorageId
     enabled: true
     format: {
