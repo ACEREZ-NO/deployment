@@ -12,7 +12,7 @@ resource flowLog 'Microsoft.Network/networkWatchers/flowLogs@2022-07-01' = {
   parent: networkWatcher
   location: location
   properties: {
-    targetResourceId: resourceId('Microsoft.Network/networkSecurityGroups', nsgName)
+    targetResourceId: resourceId('alz_tst_rg_001', 'Microsoft.Network/networkSecurityGroups', nsgName)
     storageId: flowLogStorageId
     enabled: true
     format: {
