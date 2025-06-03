@@ -27,12 +27,12 @@ var nsgs = [
     resourceGroup: 'alz-sse-rg-001'
     networkWatcherResourceGroup: 'NetworkWatcherRG'
   }
-//  {
-//    name: 'nsg-AzureBastionSubnet-australiaeast'
-//    subscriptionId: 'ce582519-c8e5-4709-a977-d72319f224a1'
-//    resourceGroup: 'rg-alz-connectivity'
-//    networkWatcherResourceGroup: 'NetworkWatcherRG'
-//  }
+  {
+    name: 'nsg-AzureBastionSubnet-australiaeast'
+    subscriptionId: 'ce582519-c8e5-4709-a977-d72319f224a1'
+    resourceGroup: 'rg-alz-connectivity'
+    networkWatcherResourceGroup: 'NetworkWatcherRG'
+  }
 ]
 
 resource flowLogStorage 'Microsoft.Storage/storageAccounts@2022-09-01' = {
@@ -58,21 +58,6 @@ module flowLogBasic 'flowlog-basic.bicep' = [for nsg in nsgs: {
     nsgResourceGroup: nsg.resourceGroup
     nsgSubscriptionId: nsg.subscriptionId
     flowLogStorageId: flowLogStorage.id
-  }
-}]
-
-module flowLogAnalytics 'flowlog-analytics.bicep' = [for (nsg, i) in nsgs: {
-  name: 'flowLogAnalytics-${nsg.name}'
-  scope: resourceGroup(nsg.subscriptionId, nsg.networkWatcherResourceGroup)
-  dependsOn: [flowLogBasic[i]]
-  params: {
-    location: location
-    nsgName: nsg.name
-    nsgResourceGroup: nsg.resourceGroup
-    nsgSubscriptionId: nsg.subscriptionId
-    flowLogStorageId: flowLogStorage.id
-    logAnalyticsWorkspaceId: logAnalyticsWorkspaceId
-    logAnalyticsRegion: logAnalyticsRegion
   }
 }]
 
