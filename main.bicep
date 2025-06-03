@@ -1,6 +1,7 @@
 var location = 'australiaeast'
 var nsgName = 'alz-tst-nsg-001'
 var logAnalyticsWorkspaceResourceId = '/subscriptions/9c4fddcd-e800-4363-82dd-b0acd9b2a961/resourcegroups/rg-sec-prod-sentinel-aue-001/providers/microsoft.operationalinsights/workspaces/law-sec-prod-sentinel-aue-001'
+var logAnalyticsWorkspaceGUID = '7b58efd2-834a-4a8c-900e-b5c15082c3fa'
 
 resource flowLogStorage 'Microsoft.Storage/storageAccounts@2022-09-01' = {
   name: 'nsgflow${uniqueString(resourceGroup().id)}'
@@ -22,7 +23,7 @@ module flowLogModule 'flowlog.bicep' = {
   params: {
     location: location
     nsgName: nsgName
-    logAnalyticsWorkspaceResourceId: logAnalyticsWorkspaceResourceId
+    logAnalyticsWorkspaceResourceId: logAnalyticsWorkspaceGUID
     flowLogStorageId: flowLogStorage.id
   }
 }
