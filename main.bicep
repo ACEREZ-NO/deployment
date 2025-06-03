@@ -49,10 +49,22 @@ resource flowLogStorage 'Microsoft.Storage/storageAccounts@2022-09-01' = {
   }
 }
 
-module flowLogModules 'flowlog.bicep' = [for nsg in nsgs: {
-  name: 'flowLog-${nsg.name}'
-//scope: resourceGroup(nsg.subscriptionId, nsg.networkWatcherResourceGroup)
+module flowLogBasic 'flowlog-basic.bicep' = [for nsg in nsgs: {
+  name: 'flowLogBasic-${nsg.name}'
   scope: resourceGroup(nsg.subscriptionId, nsg.resourceGroup)
+  params: {
+    location: location
+    nsgName: nsg.name
+    nsgResourceGroup: nsg.resourceGroup
+    nsgSubscriptionId: nsg.subscriptionId
+    flowLogStorageId: flowLogStorage.id
+  }
+}]
+
+module flowLogAnalytics 'flowlog-analytics.bicep' = [for (nsg, i) in nsgs: {
+  name: 'flowLogAnalytics-${nsg.name}'
+  scope: resourceGroup(nsg.subscriptionId, nsg.resourceGroup)
+  dependsOn: [flowLogBasic[i]]
   params: {
     location: location
     nsgName: nsg.name
