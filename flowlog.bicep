@@ -20,13 +20,11 @@ resource flowLog 'Microsoft.Network/networkWatchers/flowLogs@2022-07-01' = {
     format: {
       type: 'JSON'
       version: 2
-
 flowAnalyticsConfiguration: {
-  networkWatcherFlowAnalyticsConfiguration: {
-    enabled: false
-  }
+networkWatcherFlowAnalyticsConfiguration: {
+enabled: false
 }
-
+}
     }
   }
 }
